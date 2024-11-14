@@ -29,7 +29,7 @@ public class TransactionEngineTest {
         Assertions.assertEquals(transactionEngine.getAverageTransactionAmountByAccount(1),200);
     }
     @Test
-    void addTransactionAndDetectFraud_returns0()
+    void addTransactionAndDetectFraud_returns0_whenFirstTransactionAdd()
     {
         Transaction transaction = new Transaction();
         transaction.setTransactionId(1);
@@ -53,7 +53,7 @@ public class TransactionEngineTest {
 
     }
     @Test
-    void FraudSorceNotEqualToZero()
+    void addTransactionAndDetectFraud_returnsANumberAboveZero_whenDebitIsTrueAndAmountIsAboveAvg()
     {
         addSomeTransactionToGetAverageOf200();
         Transaction newTransaction = new Transaction();
@@ -64,7 +64,7 @@ public class TransactionEngineTest {
         Assertions.assertEquals(transactionEngine.addTransactionAndDetectFraud(newTransaction), 1600);
     }
     @Test
-    void testNemidonam()
+    void addTransactionAndDetectFraud_returnsZero_whenTransactionWithAmountOfLessThanAverageAndDebitTrueAdd()
     {
         addSomeTransactionToGetAverageOf200();
         Transaction newTransaction = new Transaction();
@@ -88,7 +88,7 @@ public class TransactionEngineTest {
         Assertions.assertEquals(result,0);
     }
     @Test
-    void addTransactionAboveThreshold()
+    void addTransactionAndDetectFraud_returnsFraudOfMaxMinusTransactionTransactionAmount_whenAmountAboveThresholdExist()
     {
         addSomeTransactionToGetAverageOf200();
         Transaction transactionAbove = getTransaction(49,1 , 1000000);
@@ -97,7 +97,7 @@ public class TransactionEngineTest {
         Assertions.assertEquals(transactionEngine.addTransactionAndDetectFraud(newTransaction),999900);
     }
     @Test
-    void addMultiTransactionAboveThreshold()
+    void addTransactionAndDetectFraud_returnZero_whenMultiTransactionAboveThresholdExistWithSameAmount()
     {
         addSomeTransactionToGetAverageOf200();
         Transaction transactionAbove1 = getTransaction(49,1 , 1000000);
@@ -108,7 +108,7 @@ public class TransactionEngineTest {
         Assertions.assertEquals(transactionEngine.addTransactionAndDetectFraud(newTransaction),0);
     }
     @Test
-    void addMultiTransactionAboveThreshold2()
+    void addTransactionAndDetectFraud_returnsDiffOfTwoBiggestThreshold_whenDifferenceOfAddedTransactionAndSecondMaxEqualToDiffOfTwoMax()
     {
         addSomeTransactionToGetAverageOf200();
         Transaction transactionAbove1 = getTransaction(49,1 , 50000);
